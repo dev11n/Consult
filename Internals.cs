@@ -66,19 +66,6 @@ namespace CNLibrary
         /// <param name="lpBaseAddress">Address we should write to</param>
         /// <param name="lpBuffer">What we should write to the address</param>
         /// <param name="nSize">Size of the type buffer type</param>
-        /// <param name="lpNumberOfBytesWritten">Outputs the amount of bytes read (set to "out _" if you don't need it)</param>
-        /// <returns></returns>
-        [DllImport("kernel32.dll", SetLastError = true)]
-        public static extern bool WriteProcessMemory(IntPtr hProcess, IntPtr lpBaseAddress, object lpBuffer, int nSize,
-            out IntPtr lpNumberOfBytesWritten);
-
-        /// <summary>
-        /// Writes to a process' memory
-        /// </summary>
-        /// <param name="hProcess">The process handle</param>
-        /// <param name="lpBaseAddress">Address we should write to</param>
-        /// <param name="lpBuffer">What we should write to the address</param>
-        /// <param name="nSize">Size of the type buffer type</param>
         /// <param name="lpNumberOfBytesWritten">Outputs the amount of bytes read (set to IntPtr.Zero if you don't need it)</param>
         [DllImport("kernel32.dll")]
         public static extern bool WriteProcessMemory(IntPtr hProcess, UIntPtr lpBaseAddress, byte[] lpBuffer,
@@ -95,6 +82,10 @@ namespace CNLibrary
         [DllImport("kernel32.dll", SetLastError = true)]
         public static extern IntPtr OpenProcess(MinProcessAccessFlags minProcessAccess, bool bInheritHandle,
             int processId);
+
+        [DllImport("kernel32.dll", SetLastError = true, CallingConvention = CallingConvention.Winapi)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool IsWow64Process(IntPtr process, out bool wow64Process);
         #endregion
     }
 }
